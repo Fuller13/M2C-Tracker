@@ -1,6 +1,6 @@
 // Simulated user database (in a real app, this would be a backend database)
 const users = {
-    "Chaos": { password: "admin", isAdmin: true }
+    "chaos@transitiontracker.com": { password: "admin", isAdmin: true }
 };
 
 // Check if user is logged in
@@ -19,8 +19,15 @@ document.getElementById("loginForm").addEventListener("submit", function(e) {
     const username = document.getElementById("username").value;
     const password = document.getElementById("password").value;
 
+    // Validate email format
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(username)) {
+        document.getElementById("loginError").textContent = "Please enter a valid email address.";
+        return;
+    }
+
     if (!users[username]) {
-        document.getElementById("loginError").textContent = "User not found.";
+        document.getElementById("loginError").textContent = "User not found. Please sign up.";
         return;
     }
 
@@ -54,7 +61,7 @@ document.getElementById("signupForm").addEventListener("submit", function(e) {
     }
 
     if (users[username]) {
-        document.getElementById("signupError").textContent = "User already exists.";
+        document.getElementById("signupError").textContent = "User already exists. Please log in.";
         return;
     }
 
@@ -67,12 +74,14 @@ document.getElementById("signupForm").addEventListener("submit", function(e) {
 function showSignup() {
     document.getElementById("loginBox").style.display = "none";
     document.getElementById("signupBox").style.display = "block";
+    document.getElementById("loginError").textContent = ""; // Clear login errors
 }
 
 // Show login form
 function showLogin() {
     document.getElementById("signupBox").style.display = "none";
     document.getElementById("loginBox").style.display = "block";
+    document.getElementById("signupError").textContent = ""; // Clear signup errors
 }
 
 // Logout
@@ -81,6 +90,10 @@ function logout() {
     window.location.href = "index.html";
 }
 
+// Get current user
+function getCurrentUser() {
+    return localStorage.getItem("loggedInUser");
+}
 // Get current user
 function getCurrentUser() {
     return localStorage.getItem("loggedInUser");
