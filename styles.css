@@ -1,155 +1,342 @@
-// Load saved data from local storage when the page loads
-document.addEventListener("DOMContentLoaded", function() {
-    const table = document.getElementById("todoTable");
-    const rows = table.getElementsByTagName("TR");
-
-    // Make Task Name and Type columns editable
-    for (let i = 1; i < rows.length; i++) {
-        const taskCell = rows[i].getElementsByTagName("TD")[0];
-        const typeCell = rows[i].getElementsByTagName("TD")[1];
-        taskCell.setAttribute("contenteditable", "true");
-        typeCell.setAttribute("contenteditable", "true");
-
-        // Add dropdown for Status column
-        const statusCell = rows[i].getElementsByTagName("TD")[2];
-        const currentStatus = statusCell.innerHTML;
-        statusCell.innerHTML = `
-            <select onchange="updateStatus(this)">
-                <option value="Not Started" ${currentStatus === "Not Started" ? "selected" : ""}>Not Started</option>
-                <option value="In Progress" ${currentStatus === "In Progress" ? "selected" : ""}>In Progress</option>
-                <option value="Completed" ${currentStatus === "Completed" ? "selected" : ""}>Completed</option>
-            </select>
-        `;
-    }
-
-    // Load saved data from local storage
-    loadSavedData();
-});
-
-// Add new task
-function addNewTask() {
-    const taskName = document.getElementById("newTaskName").value;
-    const taskType = document.getElementById("newTaskType").value;
-    const taskStatus = document.getElementById("newTaskStatus").value;
-
-    if (!taskName) {
-        alert("Please enter a task name.");
-        return;
-    }
-
-    const table = document.getElementById("todoTable");
-    const tbody = table.getElementsByTagName("TBODY")[0];
-    const newRow = document.createElement("TR");
-    newRow.innerHTML = `
-        <td contenteditable="true">${taskName}</td>
-        <td contenteditable="true">${taskType}</td>
-        <td>
-            <select onchange="updateStatus(this)">
-                <option value="Not Started" ${taskStatus === "Not Started" ? "selected" : ""}>Not Started</option>
-                <option value="In Progress" ${taskStatus === "In Progress" ? "selected" : ""}>In Progress</option>
-                <option value="Completed" ${taskStatus === "Completed" ? "selected" : ""}>Completed</option>
-            </select>
-        </td>
-        <td><button class="delete-btn" onclick="deleteTask(this)">Delete</button></td>
-    `;
-    tbody.appendChild(newRow);
-
-    // Clear the form
-    document.getElementById("newTaskName").value = "";
-    document.getElementById("newTaskType").value = "Recurring";
-    document.getElementById("newTaskStatus").value = "Not Started";
+/* Reset and Global Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
-// Delete task
-function deleteTask(button) {
-    const row = button.parentNode.parentNode;
-    row.parentNode.removeChild(row);
+body {
+    font-family: 'Open Sans', sans-serif;
+    background-color: #F5F6F5;
+    color: #333333;
 }
 
-// Sorting function for table
-function sortTable(columnIndex) {
-    const table = document.getElementById("todoTable");
-    let rows, switching = true, i, shouldSwitch, dir = "asc", switchCount = 0;
-    while (switching) {
-        switching = false;
-        rows = table.rows;
-        for (i = 1; i < (rows.length - 1); i++) {
-            shouldSwitch = false;
-            const x = rows[i].getElementsByTagName("TD")[columnIndex];
-            const y = rows[i + 1].getElementsByTagName("TD")[columnIndex];
-            let xValue = columnIndex === 2 ? x.querySelector("select").value : x.innerHTML.toLowerCase();
-            let yValue = columnIndex === 2 ? y.querySelector("select").value : y.innerHTML.toLowerCase();
-            if (dir === "asc") {
-                if (xValue > yValue) {
-                    shouldSwitch = true;
-                    break;
-                }
-            } else if (dir === "desc") {
-                if (xValue < yValue) {
-                    shouldSwitch = true;
-                    break;
-                }
-            }
-        }
-        if (shouldSwitch) {
-            rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
-            switching = true;
-            switchCount++;
-        } else {
-            if (switchCount === 0 && dir === "asc") {
-                dir = "desc";
-                switching = true;
-            }
-        }
-    }
+/* Navigation */
+nav {
+    background-color: #003087;
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
-// Save changes to local storage
-function saveChanges() {
-    const table = document.getElementById("todoTable");
-    const rows = table.getElementsByTagName("TR");
-    const data = [];
-
-    for (let i = 1; i < rows.length; i++) {
-        const taskName = rows[i].getElementsByTagName("TD")[0].innerHTML;
-        const type = rows[i].getElementsByTagName("TD")[1].innerHTML;
-        const status = rows[i].getElementsByTagName("TD")[2].querySelector("select").value;
-        data.push({ taskName, type, status });
-    }
-
-    localStorage.setItem("transitionTodos", JSON.stringify(data));
-    alert("Changes saved successfully!");
+.nav-logo {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1.5em;
+    color: #FFFFFF;
 }
 
-// Load saved data from local storage
-function loadSavedData() {
-    const savedData = localStorage.getItem("transitionTodos");
-    if (savedData) {
-        const data = JSON.parse(savedData);
-        const table = document.getElementById("todoTable");
-        const tbody = table.getElementsByTagName("TBODY")[0];
-        tbody.innerHTML = ""; // Clear existing rows
-
-        data.forEach(item => {
-            const row = document.createElement("TR");
-            row.innerHTML = `
-                <td contenteditable="true">${item.taskName}</td>
-                <td contenteditable="true">${item.type}</td>
-                <td>
-                    <select onchange="updateStatus(this)">
-                        <option value="Not Started" ${item.status === "Not Started" ? "selected" : ""}>Not Started</option>
-                        <option value="In Progress" ${item.status === "In Progress" ? "selected" : ""}>In Progress</option>
-                        <option value="Completed" ${item.status === "Completed" ? "selected" : ""}>Completed</option>
-                    </select>
-                </td>
-                <td><button class="delete-btn" onclick="deleteTask(this)">Delete</button></td>
-            `;
-            tbody.appendChild(row);
-        });
-    }
+nav ul {
+    list-style: none;
+    display: flex;
+    gap: 20px;
 }
 
-// Placeholder for status update logging
+nav ul li a {
+    color: #FFFFFF;
+    text-decoration: none;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1em;
+}
+
+nav ul li a:hover {
+    color: #FFD700;
+}
+
+/* Main Content */
+main {
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* Hero Section (Landing Page) */
+.hero {
+    text-align: center;
+    padding: 50px 20px;
+    background-color: #FFFFFF;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+
+.hero h1 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 2.5em;
+    color: #003087;
+    margin-bottom: 10px;
+}
+
+.hero p {
+    font-size: 1.2em;
+    color: #333333;
+    margin-bottom: 20px;
+}
+
+.cta-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+.btn {
+    background-color: #FFD700;
+    color: #003087;
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1em;
+}
+
+.btn:hover {
+    background-color: #FFC107;
+}
+
+/* Contact Section (Landing Page) */
+.contact-section {
+    text-align: center;
+    padding: 30px;
+    background-color: #FFFFFF;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.contact-section h2 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1.8em;
+    color: #003087;
+    margin-bottom: 10px;
+}
+
+.contact-section p {
+    font-size: 1.1em;
+    margin-bottom: 20px;
+}
+
+.contact-section ul {
+    list-style: none;
+    font-size: 1em;
+}
+
+.contact-section ul li {
+    margin-bottom: 10px;
+}
+
+.contact-section ul li a {
+    color: #003087;
+    text-decoration: none;
+}
+
+.contact-section ul li a:hover {
+    color: #FFD700;
+}
+
+/* Login Overlay */
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.login-box {
+    background-color: #FFFFFF;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    width: 90%;
+    max-width: 400px;
+}
+
+.login-box h2 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1.8em;
+    color: #003087;
+    margin-bottom: 20px;
+}
+
+.login-box form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.login-box input {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 1em;
+}
+
+.login-box button {
+    background-color: #FFD700;
+    color: #003087;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1em;
+}
+
+.login-box button:hover {
+    background-color: #FFC107;
+}
+
+.login-box p {
+    margin-top: 10px;
+    font-size: 0.9em;
+}
+
+.login-box a {
+    color: #003087;
+    text-decoration: none;
+}
+
+.login-box a:hover {
+    color: #FFD700;
+}
+
+.error {
+    color: #d9534f;
+    font-size: 0.9em;
+}
+
+/* Forms and Tables (All Pages) */
+h2 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1.8em;
+    color: #003087;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.add-task-form {
+    margin-bottom: 20px;
+    background-color: #FFFFFF;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.add-task-form h3 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1.5em;
+    color: #003087;
+    margin-bottom: 10px;
+}
+
+.add-task-form input, .add-task-form select {
+    padding: 8px;
+    margin: 5px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 1em;
+    width: calc(100% - 20px);
+}
+
+.add-task-form button {
+    padding: 8px 15px;
+    background-color: #FFD700;
+    color: #003087;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1em;
+}
+
+.add-task-form button:hover {
+    background-color: #FFC107;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #FFFFFF;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+
+th, td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+th {
+    background-color: #003087;
+    color: #FFFFFF;
+    font-family: 'Montserrat', sans-serif;
+    cursor: pointer;
+}
+
+th:hover {
+    background-color: #0040B0;
+}
+
+tr:nth-child(even) {
+    background-color: #F5F6F5;
+}
+
+tr:hover {
+    background-color: #E8F4F8;
+}
+
+td[contenteditable="true"] {
+    border: 1px dashed #ccc;
+    cursor: text;
+}
+
+td[contenteditable="true"]:focus {
+    outline: none;
+    background-color: #E8F4F8;
+}
+
+td select {
+    padding: 5px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+}
+
+.delete-btn {
+    padding: 5px 10px;
+    background-color: #d9534f;
+    color: #FFFFFF;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.delete-btn:hover {
+    background-color: #c9302c;
+}
+
+.save-btn {
+    display: block;
+    margin: 20px auto;
+    padding: 10px 20px;
+    background-color: #FFD700;
+    color: #003087;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1em;
+}
+
+.save-btn:hover {
+    background-color: #FFC107;
+}
 function updateStatus(selectElement) {
     const newStatus = selectElement.value;
     console.log(`Status updated to: ${newStatus}`);
