@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transition Tracker - Locations</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <nav>
+        <div class="nav-logo">Transition Tracker</div>
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="todos.html">To-Dos</a></li>
+            <li><a href="contacts.html">Contacts</a></li>
+            <li><a href="timeline.html">Timeline</a></li>
+            <li><a href="locations.html">Locations</a></li>
+            <li><a href="organizations.html">Organizations</a></li>
+            <li><a href="vatracker.html">VA Tracker</a></li>
+            <li><a href="personaldevelopment.html">Personal Development</a></li>
+            <li><a href="skillbridge.html">Skillbridge</a></li>
+            <li><a href="#" onclick="logout()">Logout</a></li>
+        </ul>
+    </nav>
+    <main>
+        <div class="add-task-form">
+            <h2>Add New Location</h2>
+            <input type="text" id="newCity" placeholder="City" required>
+            <input type="text" id="newJobOptions" placeholder="Job Options">
+            <input type="text" id="newJobAreas" placeholder="Job Areas">
+            <input type="text" id="newCostOfLiving" placeholder="Cost of Living">
+            <input type="text" id="newSchools" placeholder="Schools">
+            <input type="text" id="newFamilyOpportunity" placeholder="Family Opportunity">
+            <input type="text" id="newOtherFactors" placeholder="Other Factors">
+            <select id="newGrade">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+            </select>
+            <button onclick="addNewLocation()">Add Location</button>
+        </div>
+        <table id="locationsTable">
+            <thead>
+                <tr>
+                    <th>City</th>
+                    <th>Job Options</th>
+                    <th>Job Areas</th>
+                    <th>Cost of Living</th>
+                    <th>Schools</th>
+                    <th>Family Opportunity</th>
+                    <th>Other Factors</th>
+                    <th>Grade (1-5)</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Populated by JavaScript -->
+            </tbody>
+        </table>
+        <button onclick="saveLocations()" class="save-btn">Save Changes</button>
+    </main>
+    <script src="script.js"></script>
+    <script src="locations.js"></script>
+</body>
+</html>
