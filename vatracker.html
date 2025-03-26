@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transition Tracker - VA Tracker</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <nav>
+        <div class="nav-logo">Transition Tracker</div>
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="todos.html">To-Dos</a></li>
+            <li><a href="contacts.html">Contacts</a></li>
+            <li><a href="timeline.html">Timeline</a></li>
+            <li><a href="locations.html">Locations</a></li>
+            <li><a href="organizations.html">Organizations</a></li>
+            <li><a href="vatracker.html">VA Tracker</a></li>
+            <li><a href="personaldevelopment.html">Personal Development</a></li>
+            <li><a href="skillbridge.html">Skillbridge</a></li>
+            <li><a href="#" onclick="logout()">Logout</a></li>
+        </ul>
+    </nav>
+    <main>
+        <div class="add-task-form">
+            <h2>Add New VA Claim</h2>
+            <input type="text" id="newCondition" placeholder="Condition" required>
+            <input type="text" id="newRatingCriteria" placeholder="Rating Criteria">
+            <input type="text" id="newHistory" placeholder="History">
+            <input type="text" id="newStatement" placeholder="Statement">
+            <input type="text" id="newEvidence" placeholder="Evidence">
+            <button onclick="addNewVAClaim()">Add Claim</button>
+        </div>
+        <table id="vaTable">
+            <thead>
+                <tr>
+                    <th>Condition</th>
+                    <th>Rating Criteria</th>
+                    <th>History</th>
+                    <th>Statement</th>
+                    <th>Evidence</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Populated by JavaScript -->
+            </tbody>
+        </table>
+        <button onclick="saveVAClaims()" class="save-btn">Save Changes</button>
+    </main>
+    <script src="script.js"></script>
+    <script src="vatracker.js"></script>
+</body>
+</html>
