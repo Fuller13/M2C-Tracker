@@ -31,6 +31,7 @@ nav ul {
     list-style: none;
     display: flex;
     gap: 20px;
+    align-items: center; /* Vertically center items */
 }
 
 nav ul li a {
@@ -41,6 +42,16 @@ nav ul li a {
 }
 
 nav ul li a:hover {
+    color: #FFD700;
+}
+
+#welcomeMessage {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1em;
+    padding: 0 10px;
+}
+
+#welcomeMessage:hover {
     color: #FFD700;
 }
 
@@ -336,8 +347,4 @@ td select {
 
 .save-btn:hover {
     background-color: #FFC107;
-}
-function updateStatus(selectElement) {
-    const newStatus = selectElement.value;
-    console.log(`Status updated to: ${newStatus}`);
 }
