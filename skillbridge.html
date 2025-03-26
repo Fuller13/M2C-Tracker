@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transition Tracker - Skillbridge</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <nav>
+        <div class="nav-logo">Transition Tracker</div>
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="todos.html">To-Dos</a></li>
+            <li><a href="contacts.html">Contacts</a></li>
+            <li><a href="timeline.html">Timeline</a></li>
+            <li><a href="locations.html">Locations</a></li>
+            <li><a href="organizations.html">Organizations</a></li>
+            <li><a href="vatracker.html">VA Tracker</a></li>
+            <li><a href="personaldevelopment.html">Personal Development</a></li>
+            <li><a href="skillbridge.html">Skillbridge</a></li>
+            <li><a href="#" onclick="logout()">Logout</a></li>
+        </ul>
+    </nav>
+    <main>
+        <div class="add-task-form">
+            <h2>Add New Skillbridge Opportunity</h2>
+            <input type="text" id="newLocation" placeholder="Location" required>
+            <input type="text" id="newNotes" placeholder="Notes">
+            <input type="text" id="newPOC" placeholder="Point of Contact">
+            <input type="number" id="newPreference" placeholder="Preference (1-5)" min="1" max="5">
+            <button onclick="addNewSkillbridge()">Add Opportunity</button>
+        </div>
+        <table id="skillbridgeTable">
+            <thead>
+                <tr>
+                    <th>Location</th>
+                    <th>Notes</th>
+                    <th>Point of Contact</th>
+                    <th>Preference (1-5)</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Populated by JavaScript -->
+            </tbody>
+        </table>
+        <button onclick="saveSkillbridge()" class="save-btn">Save Changes</button>
+    </main>
+    <script src="script.js"></script>
+    <script src="skillbridge.js"></script>
+</body>
+</html>
