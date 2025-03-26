@@ -1,24 +1,24 @@
-// Simulated user database (in a real app, this would be a backend database)
-const users = {
-    "chaos@transitiontracker.com": { password: "admin", isAdmin: true }
-};
+import { auth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } from './firebase.js';
 
 // Check if user is logged in and set welcome message
 document.addEventListener("DOMContentLoaded", function() {
-    const loggedInUser = localStorage.getItem("loggedInUser");
-    const welcomeMessage = document.getElementById("welcomeMessage");
+    onAuthStateChanged(auth, (user) => {
+        const welcomeMessage = document.getElementById("welcomeMessage");
 
-    // If user is logged in, hide login overlay and show welcome message
-    if (loggedInUser) {
-        document.getElementById("loginOverlay").style.display = "none";
-        if (welcomeMessage) {
-            welcomeMessage.style.display = "inline";
-            welcomeMessage.textContent = `Welcome, ${loggedInUser}`;
+        if (user) {
+            // User is logged in
+            document.getElementById("loginOverlay").style.display = "none";
+            if (welcomeMessage) {
+                welcomeMessage.style.display = "inline";
+                welcomeMessage.textContent = `Welcome, ${user.email}`;
+            }
+        } else {
+            // No user is logged in
+            if (window.location.pathname !== "/index.html") {
+                window.location.href = "index.html";
+            }
         }
-    } else if (!loggedInUser && window.location.pathname !== "/index.html") {
-        // Redirect to login page if not logged in and not on index.html
-        window.location.href = "index.html";
-    }
+    });
 });
 
 // Login form submission
@@ -34,23 +34,26 @@ document.getElementById("loginForm").addEventListener("submit", function(e) {
         return;
     }
 
-    if (!users[username]) {
-        document.getElementById("loginError").textContent = "User not found. Please sign up.";
-        return;
-    }
-
-    if (users[username].password !== password) {
-        document.getElementById("loginError").textContent = "Incorrect password.";
-        return;
-    }
-
-    localStorage.setItem("loggedInUser", username);
-    document.getElementById("loginOverlay").style.display = "none";
-    const welcomeMessage = document.getElementById("welcomeMessage");
-    if (welcomeMessage) {
-        welcomeMessage.style.display = "inline";
-        welcomeMessage.textContent = `Welcome, ${username}`;
-    }
+    signInWithEmailAndPassword(auth, username, password)
+        .then((userCredential) => {
+            // Signed in
+            document.getElementById("loginOverlay").style.display = "none";
+            const welcomeMessage = document.getElementById("welcomeMessage");
+            if (welcomeMessage) {
+                welcomeMessage.style.display = "inline";
+                welcomeMessage.textContent = `Welcome, ${username}`;
+            }
+        })
+        .catch((error) => {
+            const errorCode = error.code;
+            if (errorCode === "auth/user-not-found") {
+                document.getElementById("loginError").textContent = "User not found. Please sign up.";
+            } else if (errorCode === "auth/wrong-password") {
+                document.getElementById("loginError").textContent = "Incorrect password.";
+            } else {
+                document.getElementById("loginError").textContent = "Error: " + error.message;
+            }
+        });
 });
 
 // Signup form submission
@@ -73,19 +76,24 @@ document.getElementById("signupForm").addEventListener("submit", function(e) {
         return;
     }
 
-    if (users[username]) {
-        document.getElementById("signupError").textContent = "User already exists. Please log in.";
-        return;
-    }
-
-    users[username] = { password: password, isAdmin: false };
-    localStorage.setItem("loggedInUser", username);
-    document.getElementById("loginOverlay").style.display = "none";
-    const welcomeMessage = document.getElementById("welcomeMessage");
-    if (welcomeMessage) {
-        welcomeMessage.style.display = "inline";
-        welcomeMessage.textContent = `Welcome, ${username}`;
-    }
+    createUserWithEmailAndPassword(auth, username, password)
+        .then((userCredential) => {
+            // Signed up
+            document.getElementById("loginOverlay").style.display = "none";
+            const welcomeMessage = document.getElementById("welcomeMessage");
+            if (welcomeMessage) {
+                welcomeMessage.style.display = "inline";
+                welcomeMessage.textContent = `Welcome, ${username}`;
+            }
+        })
+        .catch((error) => {
+            const errorCode = error.code;
+            if (errorCode === "auth/email-already-in-use") {
+                document.getElementById("signupError").textContent = "User already exists. Please log in.";
+            } else {
+                document.getElementById("signupError").textContent = "Error: " + error.message;
+            }
+        });
 });
 
 // Show signup form
@@ -104,11 +112,18 @@ function showLogin() {
 
 // Logout
 function logout() {
-    localStorage.removeItem("loggedInUser");
-    window.location.href = "index.html";
+    signOut(auth).then(() => {
+        window.location.href = "index.html";
+    }).catch((error) => {
+        console.error("Logout error:", error);
+    });
 }
 
 // Get current user
+function getCurrentUser() {
+    const user = auth.currentUser;
+    return user ? user.email : null;
+}
 function getCurrentUser() {
     return localStorage.getItem("loggedInUser");
 }
