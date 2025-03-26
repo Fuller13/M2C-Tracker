@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transition To-Do Tracker</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>Kiran Fuller's Transition To-Do Tracker</h1>
+        <p>A tool to manage military-to-civilian transition tasks, built by Kiran Fuller, CPI.</p>
+        <div class="timeline">
+            <p><strong>Days Until Separation:</strong> 375 | <strong>Maximum Skillbridge Days:</strong> 120</p>
+            <p><strong>Retirement Date:</strong> April 15, 2026 (Day 45809)</p>
+        </div>
+    </header>
+    <main>
+        <table id="todoTable">
+            <thead>
+                <tr>
+                    <th onclick="sortTable(0)">Task Name</th>
+                    <th onclick="sortTable(1)">Type</th>
+                    <th onclick="sortTable(2)">Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Comment on LinkedIn</td>
+                    <td>Recurring</td>
+                    <td>Not Started</td>
+                </tr>
+                <tr>
+                    <td>Post on LinkedIn</td>
+                    <td>Recurring</td>
+                    <td>Not Started</td>
+                </tr>
+                <tr>
+                    <td>Connection requests on LinkedIn</td>
+                    <td>Recurring</td>
+                    <td>Not Started</td>
+                </tr>
+                <tr>
+                    <td>Print all military administrative files and place in binder</td>
+                    <td>One-time</td>
+                    <td>Not Started</td>
+                </tr>
+                <tr>
+                    <td>Obtain 2 copies of all medical records. Don’t forget any off-base referrals</td>
+                    <td>One-time</td>
+                    <td>Not Started</td>
+                </tr>
+            </tbody>
+        </table>
+    </main>
+    <script src="script.js"></script>
+</body>
+</html>
