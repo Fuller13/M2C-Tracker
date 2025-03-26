@@ -1,6 +1,7 @@
 // Simulated user database (in a real app, this would be a backend database)
 const users = {
     "chaos@transitiontracker.com": { password: "admin", isAdmin: true }
+     "ryan@transitiontracker.com": { password: "admin", isAdmin: true }
 };
 
 // Check if user is logged in and set welcome message
