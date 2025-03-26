@@ -1,114 +1,87 @@
+// Simulated user database (in a real app, this would be a backend database)
+const users = {
+    "Chaos": { password: "admin", isAdmin: true }
+};
+
+// Check if user is logged in
 document.addEventListener("DOMContentLoaded", function() {
-    const table = document.getElementById("todoTable");
-    const rows = table.getElementsByTagName("TR");
-
-    // Make Task Name and Type columns editable
-    for (let i = 1; i < rows.length; i++) {
-        const taskCell = rows[i].getElementsByTagName("TD")[0];
-        const typeCell = rows[i].getElementsByTagName("TD")[1];
-        taskCell.setAttribute("contenteditable", "true");
-        typeCell.setAttribute("contenteditable", "true");
-
-        // Add dropdown for Status column
-        const statusCell = rows[i].getElementsByTagName("TD")[2];
-        const currentStatus = statusCell.innerHTML;
-        statusCell.innerHTML = `
-            <select onchange="updateStatus(this)">
-                <option value="Not Started" ${currentStatus === "Not Started" ? "selected" : ""}>Not Started</option>
-                <option value="In Progress" ${currentStatus === "In Progress" ? "selected" : ""}>In Progress</option>
-                <option value="Completed" ${currentStatus === "Completed" ? "selected" : ""}>Completed</option>
-            </select>
-        `;
+    const loggedInUser = localStorage.getItem("loggedInUser");
+    if (!loggedInUser && window.location.pathname !== "/index.html") {
+        window.location.href = "index.html";
+    } else if (loggedInUser && window.location.pathname === "/index.html") {
+        document.getElementById("loginOverlay").style.display = "none";
     }
-
-    // Load saved data from local storage
-    loadSavedData();
 });
 
-// Sorting function for table
-function sortTable(columnIndex) {
-    const table = document.getElementById("todoTable");
-    let rows, switching = true, i, shouldSwitch, dir = "asc", switchCount = 0;
-    while (switching) {
-        switching = false;
-        rows = table.rows;
-        for (i = 1; i < (rows.length - 1); i++) {
-            shouldSwitch = false;
-            const x = rows[i].getElementsByTagName("TD")[columnIndex];
-            const y = rows[i + 1].getElementsByTagName("TD")[columnIndex];
-            let xValue = columnIndex === 2 ? x.querySelector("select").value : x.innerHTML.toLowerCase();
-            let yValue = columnIndex === 2 ? y.querySelector("select").value : y.innerHTML.toLowerCase();
-            if (dir === "asc") {
-                if (xValue > yValue) {
-                    shouldSwitch = true;
-                    break;
-                }
-            } else if (dir === "desc") {
-                if (xValue < yValue) {
-                    shouldSwitch = true;
-                    break;
-                }
-            }
-        }
-        if (shouldSwitch) {
-            rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
-            switching = true;
-            switchCount++;
-        } else {
-            if (switchCount === 0 && dir === "asc") {
-                dir = "desc";
-                switching = true;
-            }
-        }
-    }
-}
+// Login form submission
+document.getElementById("loginForm").addEventListener("submit", function(e) {
+    e.preventDefault();
+    const username = document.getElementById("username").value;
+    const password = document.getElementById("password").value;
 
-// Save changes to local storage
-function saveChanges() {
-    const table = document.getElementById("todoTable");
-    const rows = table.getElementsByTagName("TR");
-    const data = [];
-
-    for (let i = 1; i < rows.length; i++) {
-        const taskName = rows[i].getElementsByTagName("TD")[0].innerHTML;
-        const type = rows[i].getElementsByTagName("TD")[1].innerHTML;
-        const status = rows[i].getElementsByTagName("TD")[2].querySelector("select").value;
-        data.push({ taskName, type, status });
+    if (!users[username]) {
+        document.getElementById("loginError").textContent = "User not found.";
+        return;
     }
 
-    localStorage.setItem("transitionTodos", JSON.stringify(data));
-    alert("Changes saved successfully!");
-}
-
-// Load saved data from local storage
-function loadSavedData() {
-    const savedData = localStorage.getItem("transitionTodos");
-    if (savedData) {
-        const data = JSON.parse(savedData);
-        const table = document.getElementById("todoTable");
-        const tbody = table.getElementsByTagName("TBODY")[0];
-        tbody.innerHTML = ""; // Clear existing rows
-
-        data.forEach(item => {
-            const row = document.createElement("TR");
-            row.innerHTML = `
-                <td contenteditable="true">${item.taskName}</td>
-                <td contenteditable="true">${item.type}</td>
-                <td>
-                    <select onchange="updateStatus(this)">
-                        <option value="Not Started" ${item.status === "Not Started" ? "selected" : ""}>Not Started</option>
-                        <option value="In Progress" ${item.status === "In Progress" ? "selected" : ""}>In Progress</option>
-                        <option value="Completed" ${item.status === "Completed" ? "selected" : ""}>Completed</option>
-                    </select>
-                </td>
-            `;
-            tbody.appendChild(row);
-        });
+    if (users[username].password !== password) {
+        document.getElementById("loginError").textContent = "Incorrect password.";
+        return;
     }
+
+    localStorage.setItem("loggedInUser", username);
+    document.getElementById("loginOverlay").style.display = "none";
+});
+
+// Signup form submission
+document.getElementById("signupForm").addEventListener("submit", function(e) {
+    e.preventDefault();
+    const username = document.getElementById("signupUsername").value;
+    const password = document.getElementById("signupPassword").value;
+
+    // Validate email format
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(username)) {
+        document.getElementById("signupError").textContent = "Username must be a valid email.";
+        return;
+    }
+
+    // Validate password (at least one letter and one number)
+    const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)/;
+    if (!passwordRegex.test(password)) {
+        document.getElementById("signupError").textContent = "Password must contain at least one letter and one number.";
+        return;
+    }
+
+    if (users[username]) {
+        document.getElementById("signupError").textContent = "User already exists.";
+        return;
+    }
+
+    users[username] = { password: password, isAdmin: false };
+    localStorage.setItem("loggedInUser", username);
+    document.getElementById("loginOverlay").style.display = "none";
+});
+
+// Show signup form
+function showSignup() {
+    document.getElementById("loginBox").style.display = "none";
+    document.getElementById("signupBox").style.display = "block";
 }
 
-// Placeholder for status update logging
-function updateStatus(selectElement) {
-    const newStatus = selectElement.value;
-    console.log(`Status updated to: ${newStatus}`);
+// Show login form
+function showLogin() {
+    document.getElementById("signupBox").style.display = "none";
+    document.getElementById("loginBox").style.display = "block";
+}
+
+// Logout
+function logout() {
+    localStorage.removeItem("loggedInUser");
+    window.location.href = "index.html";
+}
+
+// Get current user
+function getCurrentUser() {
+    return localStorage.getItem("loggedInUser");
 }
