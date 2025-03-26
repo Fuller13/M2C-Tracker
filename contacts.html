@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transition Tracker - Contacts</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <nav>
+        <div class="nav-logo">Transition Tracker</div>
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="todos.html">To-Dos</a></li>
+            <li><a href="contacts.html">Contacts</a></li>
+            <li><a href="timeline.html">Timeline</a></li>
+            <li><a href="locations.html">Locations</a></li>
+            <li><a href="organizations.html">Organizations</a></li>
+            <li><a href="vatracker.html">VA Tracker</a></li>
+            <li><a href="personaldevelopment.html">Personal Development</a></li>
+            <li><a href="skillbridge.html">Skillbridge</a></li>
+            <li><a href="#" onclick="logout()">Logout</a></li>
+        </ul>
+    </nav>
+    <main>
+        <div class="add-task-form">
+            <h2>Add New Contact</h2>
+            <input type="text" id="newContactName" placeholder="Name" required>
+            <input type="text" id="newContactCompany" placeholder="Company">
+            <input type="text" id="newContactTitle" placeholder="Title/Location">
+            <input type="text" id="newContactRelationship" placeholder="Relationship">
+            <input type="email" id="newContactEmail" placeholder="Email">
+            <input type="tel" id="newContactPhone" placeholder="Phone Number">
+            <button onclick="addNewContact()">Add Contact</button>
+        </div>
+        <table id="contactsTable">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Company</th>
+                    <th>Title/Location</th>
+                    <th>Relationship</th>
+                    <th>Email</th>
+                    <th>Phone</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Populated by JavaScript -->
+            </tbody>
+        </table>
+        <button onclick="saveContacts()" class="save-btn">Save Changes</button>
+    </main>
+    <script src="script.js"></script>
+    <script src="contacts.js"></script>
+</body>
+</html>
