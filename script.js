@@ -3,13 +3,21 @@ const users = {
     "chaos@transitiontracker.com": { password: "admin", isAdmin: true }
 };
 
-// Check if user is logged in
+// Check if user is logged in and set welcome message
 document.addEventListener("DOMContentLoaded", function() {
     const loggedInUser = localStorage.getItem("loggedInUser");
-    if (!loggedInUser && window.location.pathname !== "/index.html") {
-        window.location.href = "index.html";
-    } else if (loggedInUser && window.location.pathname === "/index.html") {
+    const welcomeMessage = document.getElementById("welcomeMessage");
+
+    // If user is logged in, hide login overlay and show welcome message
+    if (loggedInUser) {
         document.getElementById("loginOverlay").style.display = "none";
+        if (welcomeMessage) {
+            welcomeMessage.style.display = "inline";
+            welcomeMessage.textContent = `Welcome, ${loggedInUser}`;
+        }
+    } else if (!loggedInUser && window.location.pathname !== "/index.html") {
+        // Redirect to login page if not logged in and not on index.html
+        window.location.href = "index.html";
     }
 });
 
@@ -38,6 +46,11 @@ document.getElementById("loginForm").addEventListener("submit", function(e) {
 
     localStorage.setItem("loggedInUser", username);
     document.getElementById("loginOverlay").style.display = "none";
+    const welcomeMessage = document.getElementById("welcomeMessage");
+    if (welcomeMessage) {
+        welcomeMessage.style.display = "inline";
+        welcomeMessage.textContent = `Welcome, ${username}`;
+    }
 });
 
 // Signup form submission
@@ -68,6 +81,11 @@ document.getElementById("signupForm").addEventListener("submit", function(e) {
     users[username] = { password: password, isAdmin: false };
     localStorage.setItem("loggedInUser", username);
     document.getElementById("loginOverlay").style.display = "none";
+    const welcomeMessage = document.getElementById("welcomeMessage");
+    if (welcomeMessage) {
+        welcomeMessage.style.display = "inline";
+        welcomeMessage.textContent = `Welcome, ${username}`;
+    }
 });
 
 // Show signup form
@@ -90,10 +108,6 @@ function logout() {
     window.location.href = "index.html";
 }
 
-// Get current user
-function getCurrentUser() {
-    return localStorage.getItem("loggedInUser");
-}
 // Get current user
 function getCurrentUser() {
     return localStorage.getItem("loggedInUser");
