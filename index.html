@@ -16,6 +16,20 @@
         </div>
     </header>
     <main>
+        <div class="add-task-form">
+            <h2>Add New Task</h2>
+            <input type="text" id="newTaskName" placeholder="Task Name" required>
+            <select id="newTaskType">
+                <option value="Recurring">Recurring</option>
+                <option value="One-time">One-time</option>
+            </select>
+            <select id="newTaskStatus">
+                <option value="Not Started">Not Started</option>
+                <option value="In Progress">In Progress</option>
+                <option value="Completed">Completed</option>
+            </select>
+            <button onclick="addNewTask()">Add Task</button>
+        </div>
         <table id="todoTable">
             <thead>
                 <tr>
@@ -26,27 +40,27 @@
             </thead>
             <tbody>
                 <tr>
-                    <td>Comment on LinkedIn</td>
+                    <td>Task Name</td>
                     <td>Recurring</td>
                     <td>Not Started</td>
                 </tr>
                 <tr>
-                    <td>Post on LinkedIn</td>
+                    <td>Task Name</td>
                     <td>Recurring</td>
                     <td>Not Started</td>
                 </tr>
                 <tr>
-                    <td>Connection requests on LinkedIn</td>
+                    <td>Task Name</td>
                     <td>Recurring</td>
                     <td>Not Started</td>
                 </tr>
                 <tr>
-                    <td>Print all military administrative files and place in binder</td>
+                    <td>Task Name</td>
                     <td>One-time</td>
                     <td>Not Started</td>
                 </tr>
                 <tr>
-                    <td>Obtain 2 copies of all medical records. Don’t forget any off-base referrals</td>
+                    <td>Task Name</td>
                     <td>One-time</td>
                     <td>Not Started</td>
                 </tr>
