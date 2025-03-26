@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transition Tracker - Timeline</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <nav>
+        <div class="nav-logo">Transition Tracker</div>
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="todos.html">To-Dos</a></li>
+            <li><a href="contacts.html">Contacts</a></li>
+            <li><a href="timeline.html">Timeline</a></li>
+            <li><a href="locations.html">Locations</a></li>
+            <li><a href="organizations.html">Organizations</a></li>
+            <li><a href="vatracker.html">VA Tracker</a></li>
+            <li><a href="personaldevelopment.html">Personal Development</a></li>
+            <li><a href="skillbridge.html">Skillbridge</a></li>
+            <li><a href="#" onclick="logout()">Logout</a></li>
+        </ul>
+    </nav>
+    <main>
+        <h2>Transition Timeline</h2>
+        <div class="timeline-section">
+            <h3>Key Dates</h3>
+            <p><strong>Days Until Separation:</strong> <span id="daysUntilSeparation">375</span></p>
+            <table id="timelineTable">
+                <thead>
+                    <tr>
+                        <th>Event</th>
+                        <th>Date</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Retirement Date</td>
+                        <td>04/15/2026</td>
+                        <td><button class="delete-btn" onclick="deleteTimelineEvent(this)">Delete</button></td>
+                    </tr>
+                    <tr>
+                        <td>Earliest Eligibility to Submit BDD Claim</td>
+                        <td>10/18/2024</td>
+                        <td><button class="delete-btn" onclick="deleteTimelineEvent(this)">Delete</button></td>
+                    </tr>
+                    <tr>
+                        <td>Latest BDD Claim Submission Date</td>
+                        <td>01/16/2025</td>
+                        <td><button class="delete-btn" onclick="deleteTimelineEvent(this)">Delete</button></td>
+                    </tr>
+                    <tr>
+                        <td>Estimated Skillbridge Date</td>
+                        <td>12/17/2024</td>
+                        <td><button class="delete-btn" onclick="deleteTimelineEvent(this)">Delete</button></td>
+                    </tr>
+                    <tr>
+                        <td>Eligible for O2O</td>
+                        <td>10/18/2024</td>
+                        <td><button class="delete-btn" onclick="deleteTimelineEvent(this)">Delete</button></td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="add-task-form">
+                <h3>Add New Event</h3>
+                <input type="text" id="newEventName" placeholder="Event Name" required>
+                <input type="date" id="newEventDate" required>
+                <button onclick="addNewEvent()">Add Event</button>
+            </div>
+            <button onclick="saveTimeline()" class="save-btn">Save Changes</button>
+        </div>
+    </main>
+    <script src="script.js"></script>
+    <script src="timeline.js"></script>
+</body>
+</html>
