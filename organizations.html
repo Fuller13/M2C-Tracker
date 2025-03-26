@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transition Tracker - Organizations</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <nav>
+        <div class="nav-logo">Transition Tracker</div>
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="todos.html">To-Dos</a></li>
+            <li><a href="contacts.html">Contacts</a></li>
+            <li><a href="timeline.html">Timeline</a></li>
+            <li><a href="locations.html">Locations</a></li>
+            <li><a href="organizations.html">Organizations</a></li>
+            <li><a href="vatracker.html">VA Tracker</a></li>
+            <li><a href="personaldevelopment.html">Personal Development</a></li>
+            <li><a href="skillbridge.html">Skillbridge</a></li>
+            <li><a href="#" onclick="logout()">Logout</a></li>
+        </ul>
+    </nav>
+    <main>
+        <div class="add-task-form">
+            <h2>Add New Organization</h2>
+            <input type="text" id="newOrgName" placeholder="Organization Name" required>
+            <input type="url" id="newOrgLink" placeholder="Link" required>
+            <input type="text" id="newOrgDescription" placeholder="Description">
+            <input type="text" id="newOrgNotes" placeholder="Notes">
+            <button onclick="addNewOrg()">Add Organization</button>
+        </div>
+        <table id="orgsTable">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Link</th>
+                    <th>Description</th>
+                    <th>Notes</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>American Corporate Partners</td>
+                    <td><a href="https://www.acp-usa.org/" target="_blank">https://www.acp-usa.org/</a></td>
+                    <td>1 year free mentorship program with an industry partner. Includes military/veteran spouse resources</td>
+                    <td></td>
+                    <td><button class="delete-btn" onclick="deleteOrg(this)">Delete</button></td>
+                </tr>
+                <tr>
+                    <td>Four Block</td>
+                    <td><a href="https://fourblock.org/" target="_blank">https://fourblock.org/</a></td>
+                    <td>Free career readiness program that includes mentorship, networking, resume, and interview prep</td>
+                    <td>Long-term networking opportunity. Includes options for military/veteran spouses</td>
+                    <td><button class="delete-btn" onclick="deleteOrg(this)">Delete</button></td>
+                </tr>
+                <!-- Add other organizations from your Excel sheet -->
+            </tbody>
+        </table>
+        <button onclick="saveOrgs()" class="save-btn">Save Changes</button>
+    </main>
+    <script src="script.js"></script>
+    <script src="organizations.js"></script>
+</body>
+</html>
