@@ -385,3 +385,20 @@ td select {
 .footer p {
     margin: 0;
 }
+
+.download-btn {
+    display: inline-block;
+    margin-top: 15px;
+    padding: 10px 20px;
+    background-color: #FFD700; /* Gold color to match other buttons */
+    color: #1C2526; /* Dark text for contrast */
+    text-decoration: none;
+    border-radius: 5px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1em;
+    transition: background-color 0.3s ease;
+}
+
+.download-btn:hover {
+    background-color: #E6C200; /* Slightly darker gold on hover */
+}
