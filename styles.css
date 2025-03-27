@@ -371,3 +371,17 @@ td select {
     color: #FFFFFF;
     line-height: 1.6;
 }
+
+.footer {
+    background-color: #1C2526; /* Matches the dark background of other sections */
+    color: #FFFFFF;
+    text-align: center;
+    padding: 15px 0;
+    margin-top: 40px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.9em;
+}
+
+.footer p {
+    margin: 0;
+}
