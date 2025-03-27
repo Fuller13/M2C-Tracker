@@ -348,3 +348,25 @@ td select {
 .save-btn:hover {
     background-color: #FFC107;
 }
+.about-section {
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 20px;
+    background-color: #1C2526;
+    border-radius: 10px;
+    text-align: center;
+}
+
+.about-section h2 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 2em;
+    color: #FFD700;
+    margin-bottom: 15px;
+}
+
+.about-section p {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1em;
+    color: #FFFFFF;
+    line-height: 1.6;
+}
