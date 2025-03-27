@@ -349,12 +349,11 @@ td select {
     background-color: #FFC107;
 }
 .about-section {
-    max-width: 800px;
-    margin: 40px auto;
-    padding: 20px;
-    background-color: #1C2526;
-    border-radius: 10px;
     text-align: center;
+    padding: 30px;
+    background-color: #FFFFFF;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 .about-section h2 {
