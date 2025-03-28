@@ -402,3 +402,66 @@ td select {
 .download-btn:hover {
     background-color: #E6C200; /* Slightly darker gold on hover */
 }
+.contact-section {
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Heading styles */
+.contact-section h1 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.interview-questions h2 {
+    color: #2c3e50;
+    margin-bottom: 15px;
+    font-size: 1.8em;
+}
+
+/* Paragraph under the heading */
+.interview-questions p {
+    color: #666;
+    margin-bottom: 20px;
+}
+
+/* Question list styling */
+.question-list {
+    list-style-type: none;
+    padding: 0;
+}
+
+/* Individual question item styling */
+.question-item {
+    background-color: #ecf0f1;
+    padding: 15px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+/* Hover effect for question items */
+.question-item:hover {
+    background-color: #dfe6e9;
+}
+
+/* Responsive design */
+@media (max-width: 600px) {
+    .contact-section {
+        margin: 20px;
+        padding: 15px;
+    }
+
+    .interview-questions h2 {
+        font-size: 1.5em;
+    }
+
+    .question-item {
+        padding: 10px;
+    }
+}
