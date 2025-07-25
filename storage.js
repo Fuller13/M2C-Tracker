@@ -26,7 +26,7 @@ let m2cData = JSON.parse(localStorage.getItem('m2cData')) || {
         { name: "Vets2PM", link: "https://vets2pm.com/", description: "Free learning, Skillbridge options. Certification options during Skillbridge", notes: "" },
         { name: "50Strong", link: "https://www.50-strong.us/", description: "Veteran Employment resource", notes: "" },
         { name: "The Honor Foundation", link: "https://www.honor.org/", description: "Career transition program for U.S. Special Operations Forces that effectively translates their elite military service to the private sector and helps create the next generation of corporate and community leaders.", notes: "" },
-        { name: "Operation New Uniform", link: "https://www.onuvets.org/", description: "Non-profit organization dedicated to empowering transitioning Servicemembers from all branches of the military to find their “new uniform”—a fulfilling career in the business world.", notes: "" },
+        { name: "Operation New Uniform", link: "https://www.onuvets.org/", description: "Non-profit organization dedicated to empowering transitioning Servicemembers from all branches of the military to find their 'new uniform'—a fulfilling career in the business world.", notes: "" },
         { name: "Veteran Timeline", link: "https://www.veterantimeline.com/", description: "Individualized timeline builder built by Veterans", notes: "" }
     ],
     personaldevelopment: [],
@@ -248,6 +248,7 @@ function saveData(page) {
             m2cData[page] = Array.from(tbody.querySelectorAll('tr')).map(row => {
                 const item = {};
                 config.fields.forEach((field, index) => {
+                   -activated
                     if (field === 'link') {
                         const a = row.cells[index].querySelector('a');
                         item[field] = a ? a.href : '';
