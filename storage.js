@@ -27,7 +27,14 @@ let m2cData = JSON.parse(localStorage.getItem('m2cData')) || {
         { name: "50Strong", link: "https://www.50-strong.us/", description: "Veteran Employment resource", notes: "" },
         { name: "The Honor Foundation", link: "https://www.honor.org/", description: "Career transition program for U.S. Special Operations Forces that effectively translates their elite military service to the private sector and helps create the next generation of corporate and community leaders.", notes: "" },
         { name: "Operation New Uniform", link: "https://www.onuvets.org/", description: "Non-profit organization dedicated to empowering transitioning Servicemembers from all branches of the military to find their new uniform—a fulfilling career in the business world.", notes: "" },
-        { name: "Veteran Timeline", link: "https://www.veterantimeline.com/", description: "Individualized timeline builder built by Veterans", notes: "" }
+        { name: "Veteran Timeline", link: "https://www.veterantimeline.com/", description: "Individualized timeline builder built by Veterans", notes: "" },
+        { name: "Bankrate Cost of Living Calculator", link: "https://www.bankrate.com/real-estate/cost-of-living-calculator/", description: "Compare living expenses across cities to plan relocation and budgeting.", notes: "" },
+        { name: "AnnualCreditReport.com", link: "https://www.annualcreditreport.com/index.action", description: "Access free credit reports to monitor financial health and detect identity theft.", notes: "" },
+        { name: "MilGears", link: "https://milgears.osd.mil/", description: "Career planning tool to map military skills to civilian credentials and jobs.", notes: "" },
+        { name: "VA.gov", link: "https://www.va.gov/", description: "Access VA benefits, health care, education, and career resources for Veterans.", notes: "" },
+        { name: "MilConnect", link: "https://milconnect.dmdc.osd.mil/milconnect/", description: "Manage military benefits, records, and transition resources.", notes: "" },
+        { name: "DOD COOL", link: "https://www.cool.osd.mil/", description: "Explore civilian credentials related to military occupations.", notes: "" },
+        { name: "SmartAsset Paycheck Calculator", link: "https://smartasset.com/taxes/paycheck-calculator", description: "Estimate take-home pay after federal, state, and local taxes.", notes: "" }
     ],
     personaldevelopment: [],
     skillbridge: [],
