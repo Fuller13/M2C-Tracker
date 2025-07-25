@@ -7,10 +7,10 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <button class="dark-mode-toggle" onclick="toggleDarkMode()">Toggle Dark Mode</button>
+    <button class="dark-mode-toggle" aria-label="Toggle Dark Mode" onclick="toggleDarkMode()">Toggle Dark Mode</button>
     <nav>
         <div class="nav-logo">
-            <img src="logo.svg" alt="Military Transition Tracker Logo" width="150">
+            <img src="logo.svg" alt="Military Transition Tracker Logo" width="200">
         </div>
         <ul>
             <li><a href="index.html">Home</a></li>
@@ -28,22 +28,22 @@
         <section class="hero">
             <h1>Welcome to Military Transition Tracker</h1>
             <p>A comprehensive tool for military-to-civilian (M2C) transition, built by Veterans for Veterans</p>
-            <p>Military Transition Tracker is a comprehensive tool designed to support military personnel in their transition to civilian life, offering a centralized platform to manage to-dos, timelines, contacts, and more. Built by a transitioning U.S. Navy veteran, this project aims to simplify the transition process and empower veterans to stay organized and prepared. With features like data persistence and JSON export, Transition Tracker ensures you can access and share your transition plans anytime, anywhere.</p>
+            <p>Military Transition Tracker is a comprehensive tool designed to support military personnel in their transition to civilian life, offering a centralized platform to manage to-dos, timelines, contacts, and more. Built by veterans, this tool aims to simplify the transition process and empower veterans to stay organized and prepared. With features like data persistence and JSON export, Transition Tracker ensures you can access and share your transition plans anytime, anywhere.</p>
         </section>
         <section class="about-section">
             <h2>About Military Transition Tracker</h2>
             <p>This tool is designed for offline use, allowing you to manage your transition data locally on your computer. Follow these steps to get started:</p>
             <ol>
-                <li><strong>Download the Website</strong>: Click the button below to download the ZIP file containing the website files.</li>
+                <li><strong>Download the Website</strong>: Click the link below to download the ZIP file containing the website files.</li>
                 <li><strong>Extract the Files</strong>: Unzip the downloaded file to a folder on your computer.</li>
                 <li><strong>Open the Website</strong>: Locate the <code>index.html</code> file in the extracted folder and double-click to open it in your preferred web browser (e.g., Chrome, Firefox, Edge).</li>
                 <li><strong>Add and Edit Data</strong>: Navigate to pages like To-Dos, Contacts, or Timeline to add new entries, edit table cells, or delete rows. Your changes are automatically saved in your browser.</li>
                 <li><strong>Save Your Data</strong>: Click the "Save Changes" button on any page to ensure your data is stored. Data persists in your browser as long as you use the same browser and don’t clear its storage.</li>
                 <li><strong>Download Your Data</strong>: Click the "Download Data" button on any page to save all your data as a <code>m2c-data.json</code> file for backup or sharing.</li>
-                <li><strong>Access Your Data</strong>: Reopen <code>index.html</code> in the same browser to view or edit your saved data. Use the downloaded JSON file to keep a portable copy of your data.</li>
+                <li><strong>Access Your Data</strong>: Reopen <code>index.html</code> in the same browser to view or edit your saved data.</li>
             </ol>
-            <p><a href="https://github.com/your-username/your-repo/releases/latest/download/M2C-Tracker-latest.zip" download class="download-btn">Download the Website</a></p>
-            <p>Prefer the original Excel version? <a href="TransitionTracker.xlsx" download class="download-btn">Download the Original Excel Tool</a></p>
+            <p><a href="assets/M2C-Tracker-latest.zip" download class="download-btn">Download the Website</a></p>
+            <p>Prefer the original Excel version? <a href="assets/TransitionTracker.xlsx" download class="download-btn">Download the Excel Tool</a></p>
         </section>
         <section class="contact-section">
             <h2>Contact Us</h2>
