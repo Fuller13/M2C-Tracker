@@ -26,7 +26,7 @@ let m2cData = JSON.parse(localStorage.getItem('m2cData')) || {
         { name: "Vets2PM", link: "https://vets2pm.com/", description: "Free learning, Skillbridge options. Certification options during Skillbridge", notes: "" },
         { name: "50Strong", link: "https://www.50-strong.us/", description: "Veteran Employment resource", notes: "" },
         { name: "The Honor Foundation", link: "https://www.honor.org/", description: "Career transition program for U.S. Special Operations Forces that effectively translates their elite military service to the private sector and helps create the next generation of corporate and community leaders.", notes: "" },
-        { name: "Operation New Uniform", link: "https://www.onuvets.org/", description: "Non-profit organization dedicated to empowering transitioning Servicemembers from all branches of the military to find their 'new uniform'—a fulfilling career in the business world.", notes: "" },
+        { name: "Operation New Uniform", link: "https://www.onuvets.org/", description: "Non-profit organization dedicated to empowering transitioning Servicemembers from all branches of the military to find their new uniform—a fulfilling career in the business world.", notes: "" },
         { name: "Veteran Timeline", link: "https://www.veterantimeline.com/", description: "Individualized timeline builder built by Veterans", notes: "" }
     ],
     personaldevelopment: [],
@@ -139,6 +139,7 @@ function getPageFromUrl() {
 
 // Create table row with appropriate cell types
 function createTableRow(page, item, index) {
+    console.log('createTableRow called for page:', page, 'index:', index);
     const config = pageConfig[page];
     const row = document.createElement('tr');
     config.fields.forEach((field, colIndex) => {
@@ -147,7 +148,7 @@ function createTableRow(page, item, index) {
             const input = document.createElement('input');
             input.type = 'date';
             input.value = item[field] || '';
-            input.addEventListener('change', saveTimeline);
+            input.addEventListener('change', () => saveData(page));
             td.appendChild(input);
         } else if (page === 'todos' && field === 'status') {
             const select = document.createElement('select');
@@ -197,15 +198,32 @@ function addNewRow(page) {
     });
 
     if (isValid) {
+        // Add to m2cData
         m2cData[page].push(newItem);
-        saveData(page);
-        updateTable(page);
+
+        // Directly append row to table
+        const table = document.getElementById(config.tableId);
+        const tbody = table?.querySelector('tbody');
+        if (!table || !tbody) {
+            console.error(`Table or tbody not found for tableId: ${config.tableId} on page: ${page}`);
+            return;
+        }
+        const index = m2cData[page].length - 1; // Index of new item
+        const row = createTableRow(page, newItem, index);
+        tbody.appendChild(row);
+
+        // Save to localStorage
+        localStorage.setItem('m2cData', JSON.stringify(m2cData));
+        showStatus();
+
+        // Clear form inputs
         config.inputs.forEach(inputId => {
             const input = document.getElementById(inputId);
             if (input) {
                 input.value = input.type === 'number' || input.tagName === 'SELECT' ? input.defaultValue : '';
             }
         });
+
         if (page === 'timeline') updateDaysUntilSeparation();
     } else {
         alert('Please fill in all required fields.');
@@ -221,7 +239,7 @@ function deleteRow(page, index) {
     if (page === 'timeline') updateDaysUntilSeparation();
 }
 
-// Update table display
+// Update table display (used for initial load and deletes)
 function updateTable(page) {
     console.log('updateTable called for page:', page);
     const config = pageConfig[page];
@@ -238,45 +256,32 @@ function updateTable(page) {
     });
 }
 
-// Save data to localStorage
+// Save data to localStorage (used for edits and deletes)
 function saveData(page) {
     console.log('saveData called for page:', page);
-    if (page !== 'timeline' && page !== 'todos') {
-        const config = pageConfig[page];
-        const tbody = document.getElementById(config.tableId)?.querySelector('tbody');
-        if (tbody) {
-            m2cData[page] = Array.from(tbody.querySelectorAll('tr')).map(row => {
-                const item = {};
-                config.fields.forEach((field, index) => {
-                   -activated
-                    if (field === 'link') {
-                        const a = row.cells[index].querySelector('a');
-                        item[field] = a ? a.href : '';
-                    } else {
-                        item[field] = row.cells[index].textContent;
-                    }
-                });
-                return item;
-            });
-        }
-    } else if (page === 'todos') {
-        const tbody = document.getElementById('todoTable')?.querySelector('tbody');
-        if (tbody) {
-            m2cData.todos = Array.from(tbody.querySelectorAll('tr')).map(row => ({
-                task: row.cells[0].textContent,
-                type: row.cells[1].textContent,
-                status: row.cells[2].querySelector('select').value
-            }));
-        }
-    } else if (page === 'timeline') {
-        const tbody = document.getElementById('timelineTable')?.querySelector('tbody');
-        if (tbody) {
-            m2cData.timeline = Array.from(tbody.querySelectorAll('tr')).map(row => ({
-                event: row.cells[0].textContent,
-                date: row.cells[1].querySelector('input').value
-            }));
-        }
+    const config = pageConfig[page];
+    const table = document.getElementById(config.tableId);
+    const tbody = table?.querySelector('tbody');
+    if (!tbody) {
+        console.error(`Table or tbody not found for tableId: ${config.tableId} on page: ${page}`);
+        return;
     }
+    m2cData[page] = Array.from(tbody.querySelectorAll('tr')).map(row => {
+        const item = {};
+        config.fields.forEach((field, index) => {
+            if (page === 'timeline' && field === 'date') {
+                item[field] = row.cells[index].querySelector('input').value;
+            } else if (page === 'todos' && field === 'status') {
+                item[field] = row.cells[index].querySelector('select').value;
+            } else if (field === 'link') {
+                const a = row.cells[index].querySelector('a');
+                item[field] = a ? a.href : '';
+            } else {
+                item[field] = row.cells[index].textContent;
+            }
+        });
+        return item;
+    });
     localStorage.setItem('m2cData', JSON.stringify(m2cData));
     showStatus();
 }
@@ -350,7 +355,11 @@ function saveChanges() { console.log('saveChanges called'); saveData('todos'); }
 function sortTable(columnIndex) {
     console.log('sortTable called with columnIndex:', columnIndex);
     const table = document.getElementById('todoTable');
-    const tbody = table.querySelector('tbody');
+    const tbody = table?.querySelector('tbody');
+    if (!table || !tbody) {
+        console.error('Table or tbody not found for todoTable');
+        return;
+    }
     const rows = Array.from(tbody.querySelectorAll('tr'));
     const isAscending = table.dataset.sortOrder !== 'asc';
     table.dataset.sortOrder = isAscending ? 'asc' : 'desc';
