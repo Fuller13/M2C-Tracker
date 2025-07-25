@@ -6,42 +6,61 @@
  */
 console.log('storage.js loaded');
 
+// Default organizations data
+const defaultOrganizations = [
+    { name: "LinkedIn Premium", link: "https://socialimpact.linkedin.com/programs/veterans/activeduty", description: "1 year free for separated Veterans and unlimited free access for Active Duty", notes: "" },
+    { name: "American Corporate Partners", link: "https://www.acp-usa.org/", description: "1 year free mentorship program with an industry partner. Includes military/veteran spouse resources", notes: "" },
+    { name: "Four Block", link: "https://fourblock.org/", description: "Free career readiness program that includes mentorship, networking, resume, and interview prep", notes: "Long-term networking opportunity. Includes options for military/veteran spouses" },
+    { name: "Hire Heroes USA", link: "https://www.hireheroesusa.org/", description: "Resume assistance, resume tailoring, mentorship, free access to Coursera for 6 months, multiple other training options", notes: "" },
+    { name: "Hire Military", link: "https://www.hiremilitary.us/s/", description: "Free training sessions, virtual career fairs, Skillbridge placement", notes: "" },
+    { name: "Hiring Our Heroes", link: "https://www.hiringourheroes.org/", description: "Fellowship options for Skillbridge. Includes cohorts and off-cycle option. Access to free certifications with Google", notes: "" },
+    { name: "O*Net Online", link: "https://www.onetonline.org/", description: "Helps translate military words to civilian", notes: "" },
+    { name: "Onward to Opportunity", link: "https://ivmf.syracuse.edu/programs/career-training-2/", description: "Free certification during last 6 months on active duty or any time as a Reservist or Veteran", notes: "" },
+    { name: "Recruit Military", link: "https://recruitmilitary.com/", description: "Free training sessions on resumes, virtual career fairs, in person career fairs. Skillbridge placement assistance", notes: "" },
+    { name: "USO", link: "https://www.uso.org/programs/uso-transition-program", description: "Transition assistance program includes financial readiness, employment resources, mentorship, education resources such as Coursera. Free training sessions on LinkedIn and resumes", notes: "" },
+    { name: "Veteran Hiring Solutions", link: "https://www.veteranhiringsolutions.com/", description: "Resume assistance, interview preparation with AI assistance, translating military experience to civilian terminology, career guidance", notes: "" },
+    { name: "Veterati", link: "https://www.veterati.com/", description: "On demand mentorship. Sign up for an account and search for a mentor. Spouses and Veterans eligible", notes: "" },
+    { name: "Vets2PM", link: "https://vets2pm.com/", description: "Free learning, Skillbridge options. Certification options during Skillbridge", notes: "" },
+    { name: "50Strong", link: "https://www.50-strong.us/", description: "Veteran Employment resource", notes: "" },
+    { name: "The Honor Foundation", link: "https://www.honor.org/", description: "Career transition program for U.S. Special Operations Forces that effectively translates their elite military service to the private sector and helps create the next generation of corporate and community leaders.", notes: "" },
+    { name: "Operation New Uniform", link: "https://www.onuvets.org/", description: "Non-profit organization dedicated to empowering transitioning Servicemembers from all branches of the military to find their new uniform—a fulfilling career in the business world.", notes: "" },
+    { name: "Veteran Timeline", link: "https://www.veterantimeline.com/", description: "Individualized timeline builder built by Veterans", notes: "" },
+    { name: "Bankrate Cost of Living Calculator", link: "https://www.bankrate.com/real-estate/cost-of-living-calculator/", description: "Compare living expenses across cities to plan relocation and budgeting.", notes: "" },
+    { name: "AnnualCreditReport.com", link: "https://www.annualcreditreport.com/index.action", description: "Access free credit reports to monitor financial health and detect identity theft.", notes: "" },
+    { name: "MilGears", link: "https://milgears.osd.mil/", description: "Career planning tool to map military skills to civilian credentials and jobs.", notes: "" },
+    { name: "VA.gov", link: "https://www.va.gov/", description: "Access VA benefits, health care, education, and career resources for Veterans.", notes: "" },
+    { name: "MilConnect", link: "https://milconnect.dmdc.osd.mil/milconnect/", description: "Manage military benefits, records, and transition resources.", notes: "" },
+    { name: "DOD COOL", link: "https://www.cool.osd.mil/", description: "Explore civilian credentials related to military occupations.", notes: "" },
+    { name: "SmartAsset Paycheck Calculator", link: "https://smartasset.com/taxes/paycheck-calculator", description: "Estimate take-home pay after federal, state, and local taxes.", notes: "" }
+];
+
+// Version for data schema
+const DATA_VERSION = '2.0';
+
 // Initialize data from localStorage or create new
 let m2cData = JSON.parse(localStorage.getItem('m2cData')) || {
     contacts: [],
     locations: [],
-    organizations: [
-        { name: "LinkedIn Premium", link: "https://socialimpact.linkedin.com/programs/veterans/activeduty", description: "1 year free for separated Veterans and unlimited free access for Active Duty", notes: "" },
-        { name: "American Corporate Partners", link: "https://www.acp-usa.org/", description: "1 year free mentorship program with an industry partner. Includes military/veteran spouse resources", notes: "" },
-        { name: "Four Block", link: "https://fourblock.org/", description: "Free career readiness program that includes mentorship, networking, resume, and interview prep", notes: "Long-term networking opportunity. Includes options for military/veteran spouses" },
-        { name: "Hire Heroes USA", link: "https://www.hireheroesusa.org/", description: "Resume assistance, resume tailoring, mentorship, free access to Coursera for 6 months, multiple other training options", notes: "" },
-        { name: "Hire Military", link: "https://www.hiremilitary.us/s/", description: "Free training sessions, virtual career fairs, Skillbridge placement", notes: "" },
-        { name: "Hiring Our Heroes", link: "https://www.hiringourheroes.org/", description: "Fellowship options for Skillbridge. Includes cohorts and off-cycle option. Access to free certifications with Google", notes: "" },
-        { name: "O*Net Online", link: "https://www.onetonline.org/", description: "Helps translate military words to civilian", notes: "" },
-        { name: "Onward to Opportunity", link: "https://ivmf.syracuse.edu/programs/career-training-2/", description: "Free certification during last 6 months on active duty or any time as a Reservist or Veteran", notes: "" },
-        { name: "Recruit Military", link: "https://recruitmilitary.com/", description: "Free training sessions on resumes, virtual career fairs, in person career fairs. Skillbridge placement assistance", notes: "" },
-        { name: "USO", link: "https://www.uso.org/programs/uso-transition-program", description: "Transition assistance program includes financial readiness, employment resources, mentorship, education resources such as Coursera. Free training sessions on LinkedIn and resumes", notes: "" },
-        { name: "Veteran Hiring Solutions", link: "https://www.veteranhiringsolutions.com/", description: "Resume assistance, interview preparation with AI assistance, translating military experience to civilian terminology, career guidance", notes: "" },
-        { name: "Veterati", link: "https://www.veterati.com/", description: "On demand mentorship. Sign up for an account and search for a mentor. Spouses and Veterans eligible", notes: "" },
-        { name: "Vets2PM", link: "https://vets2pm.com/", description: "Free learning, Skillbridge options. Certification options during Skillbridge", notes: "" },
-        { name: "50Strong", link: "https://www.50-strong.us/", description: "Veteran Employment resource", notes: "" },
-        { name: "The Honor Foundation", link: "https://www.honor.org/", description: "Career transition program for U.S. Special Operations Forces that effectively translates their elite military service to the private sector and helps create the next generation of corporate and community leaders.", notes: "" },
-        { name: "Operation New Uniform", link: "https://www.onuvets.org/", description: "Non-profit organization dedicated to empowering transitioning Servicemembers from all branches of the military to find their new uniform—a fulfilling career in the business world.", notes: "" },
-        { name: "Veteran Timeline", link: "https://www.veterantimeline.com/", description: "Individualized timeline builder built by Veterans", notes: "" },
-        { name: "Bankrate Cost of Living Calculator", link: "https://www.bankrate.com/real-estate/cost-of-living-calculator/", description: "Compare living expenses across cities to plan relocation and budgeting.", notes: "" },
-        { name: "AnnualCreditReport.com", link: "https://www.annualcreditreport.com/index.action", description: "Access free credit reports to monitor financial health and detect identity theft.", notes: "" },
-        { name: "MilGears", link: "https://milgears.osd.mil/", description: "Career planning tool to map military skills to civilian credentials and jobs.", notes: "" },
-        { name: "VA.gov", link: "https://www.va.gov/", description: "Access VA benefits, health care, education, and career resources for Veterans.", notes: "" },
-        { name: "MilConnect", link: "https://milconnect.dmdc.osd.mil/milconnect/", description: "Manage military benefits, records, and transition resources.", notes: "" },
-        { name: "DOD COOL", link: "https://www.cool.osd.mil/", description: "Explore civilian credentials related to military occupations.", notes: "" },
-        { name: "SmartAsset Paycheck Calculator", link: "https://smartasset.com/taxes/paycheck-calculator", description: "Estimate take-home pay after federal, state, and local taxes.", notes: "" }
-    ],
+    organizations: defaultOrganizations,
     personaldevelopment: [],
     skillbridge: [],
     timeline: [{ event: "Retirement Date", date: "2025-12-25" }],
     todos: [{ task: "New Task", type: "Recurring", status: "Not Started" }],
     vatracker: []
 };
+
+// Check data version and update organizations if outdated
+const storedVersion = localStorage.getItem('dataVersion');
+if (storedVersion !== DATA_VERSION) {
+    console.log('Updating m2cData.organizations to version', DATA_VERSION);
+    // Merge default organizations with user-added entries
+    const userOrgs = m2cData.organizations.filter(org => 
+        !defaultOrganizations.some(defaultOrg => defaultOrg.link === org.link)
+    );
+    m2cData.organizations = [...defaultOrganizations, ...userOrgs];
+    localStorage.setItem('m2cData', JSON.stringify(m2cData));
+    localStorage.setItem('dataVersion', DATA_VERSION);
+}
 
 // Page configurations
 const pageConfig = {
