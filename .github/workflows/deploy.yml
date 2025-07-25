@@ -1,8 +1,8 @@
-name: Deploy to GitHub Pages
+name: Deploy to GitHub Pages and Generate ZIP
 on:
   push:
     branches: [ main ]
-  workflow_dispatch: # Allows manual triggering
+  workflow_dispatch:
 permissions:
   contents: read
   pages: write
@@ -11,7 +11,7 @@ concurrency:
   group: "pages"
   cancel-in-progress: false
 jobs:
-  deploy:
+  build-and-deploy:
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
@@ -20,11 +20,27 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
       - name: Setup Pages
-        uses: actions/configure-pages@v4
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v4
+        uses: actions/configure-pages@v5
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
         with:
           path: .
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+  generate-zip:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Create ZIP
+        run: zip -r M2C-Tracker-latest.zip *.html styles.css storage.js assets
+      - name: Upload to Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: latest
+          files: M2C-Tracker-latest.zip
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
