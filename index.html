@@ -7,25 +7,26 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+    <button class="dark-mode-toggle" onclick="toggleDarkMode()">Toggle Dark Mode</button>
     <nav>
-        <div class="nav-logo">M-2-C Transition Tracker</div>
-            <ul>
-                <li><a href="index.html">Home</a></li>
-                <li><a href="todos.html">To-Dos</a></li>
-                <li><a href="contacts.html">Contacts</a></li>
-                <li><a href="timeline.html">Timeline</a></li>
-                <li><a href="locations.html">Locations</a></li>
-                <li><a href="organizations.html">Organizations</a></li>
-                <li><a href="vatracker.html">VA Tracker</a></li>
-                <li><a href="personaldevelopment.html">Personal Development</a></li>
-                <li><a href="skillbridge.html">Skillbridge</a></li>
-            </ul>
+        <div class="nav-logo">Military Transition Tracker</div>
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="todos.html">To-Dos</a></li>
+            <li><a href="contacts.html">Contacts</a></li>
+            <li><a href="timeline.html">Timeline</a></li>
+            <li><a href="locations.html">Locations</a></li>
+            <li><a href="organizations.html">Organizations</a></li>
+            <li><a href="vatracker.html">VA Tracker</a></li>
+            <li><a href="personaldevelopment.html">Personal Development</a></li>
+            <li><a href="skillbridge.html">Skillbridge</a></li>
+        </ul>
     </nav>
     <main>
         <section class="hero">
             <h1>Welcome to Military Transition Tracker</h1>
             <p>A comprehensive tool for military-to-civilian (M2C) transition, built by Veterans for Veterans</p>
-            <p>Military Transition Tracker is a comprehensive tool designed to support military personnel in their transition to civilian life, offering a centralized platform to manage to-dos, timelines, contacts, and more. Built by a transitioning U.S. Navy veteran, this project aims to simplify the transition process and empower veterans to stay organized and prepared. With features like data persistence and Excel export, Transition Tracker ensures you can access and share your transition plans anytime, anywhere.</p>
+            <p>Military Transition Tracker is a comprehensive tool designed to support military personnel in their transition to civilian life, offering a centralized platform to manage to-dos, timelines, contacts, and more. Built by a transitioning U.S. Navy veteran, this project aims to simplify the transition process and empower veterans to stay organized and prepared. With features like data persistence and JSON export, Transition Tracker ensures you can access and share your transition plans anytime, anywhere.</p>
         </section>
         <section class="about-section">
             <h2>About Military Transition Tracker</h2>
@@ -50,13 +51,9 @@
                 <li>Kiran Fuller (Project Manager) - <a href="https://www.linkedin.com/in/kiran-fuller-cpi/">LinkedIn</a></li>
             </ul>
         </section>
-        <!-- New Footer -->
         <footer class="footer">
             <p>Copyright © 2025 M2C Transition Tracker. All rights reserved.</p>
         </footer>
-        <button onclick="downloadData()" class="save-btn">Download Data</button>
-        <button class="dark-mode-toggle" onclick="toggleDarkMode()">Toggle Dark Mode</button>
-        <div id="status" style="display: none; color: green; margin-top: 10px;">Data saved successfully!</div>
     </main>
     <script src="storage.js"></script>
 </body>
