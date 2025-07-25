@@ -22,7 +22,9 @@ let m2cData = JSON.parse(localStorage.getItem('m2cData')) || {
         { name: "USO", link: "https://www.uso.org/programs/uso-transition-program", description: "Transition assistance program includes financial readiness, employment resources, mentorship, education resources such as Coursera. Free training sessions on LinkedIn and resumes", notes: "" },
         { name: "Veteran Hiring Solutions", link: "https://www.veteranhiringsolutions.com/", description: "Resume assistance, interview preparation with AI assistance, translating military experience to civilian terminology, career guidance", notes: "" },
         { name: "Veterati", link: "https://www.veterati.com/", description: "On demand mentorship. Sign up for an account and search for a mentor. Spouses and Veterans eligible", notes: "" },
-        { name: "Vets2PM", link: "https://vets2pm.com/", description: "Free learning, Skillbridge options. Certification options during Skillbridge", notes: "" },
+        { name: "Vets2PM", link: "https://vets2pm.com/", description: "Free learning, Skillbridge options. Certification options during
+
+ Skillbridge", notes: "" },
         { name: "50Strong", link: "https://www.50-strong.us/", description: "Veteran Employment resource", notes: "" },
         { name: "The Honor Foundation", link: "https://www.honor.org/", description: "Career transition program for U.S. Special Operations Forces that effectively translates their elite military service to the private sector and helps create the next generation of corporate and community leaders.", notes: "" },
         { name: "Operation New Uniform", link: "https://www.onuvets.org/", description: "Non-profit organization dedicated to empowering transitioning Servicemembers from all branches of the military to find their “new uniform”—a fulfilling career in the business world.", notes: "" },
@@ -99,14 +101,17 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!config) return;
 
     // Load table data
-    const tbody = document.getElementById(config.tableId)?.querySelector('tbody');
-    if (tbody) {
-        tbody.innerHTML = '';
-        m2cData[page].forEach((item, index) => {
-            const row = createTableRow(page, item, index);
-            tbody.appendChild(row);
-        });
+    const table = document.getElementById(config.tableId);
+    const tbody = table?.querySelector('tbody');
+    if (!table || !tbody) {
+        console.error(`Table or tbody not found for tableId: ${config.tableId} on page: ${page}`);
+        return;
     }
+    tbody.innerHTML = '';
+    m2cData[page].forEach((item, index) => {
+        const row = createTableRow(page, item, index);
+        tbody.appendChild(row);
+    });
 
     // Timeline-specific: Update days until separation and set daily update
     if (page === 'timeline') {
@@ -174,6 +179,8 @@ function addNewRow(page) {
             if (config.required.includes(inputId) && !input.value.trim()) {
                 isValid = false;
             }
+        } else {
+            console.error(`Input not found: ${inputId} on page: ${page}`);
         }
     });
 
@@ -183,7 +190,9 @@ function addNewRow(page) {
         updateTable(page);
         config.inputs.forEach(inputId => {
             const input = document.getElementById(inputId);
-            if (input) input.value = input.type === 'number' || input.tagName === 'SELECT' ? input.defaultValue : '';
+            if (input) {
+                input.value = input.type === 'number' || input.tagName === 'SELECT' ? input.defaultValue : '';
+            }
         });
         if (page === 'timeline') updateDaysUntilSeparation();
     } else {
@@ -202,14 +211,17 @@ function deleteRow(page, index) {
 // Update table display
 function updateTable(page) {
     const config = pageConfig[page];
-    const tbody = document.getElementById(config.tableId)?.querySelector('tbody');
-    if (tbody) {
-        tbody.innerHTML = '';
-        m2cData[page].forEach((item, index) => {
-            const row = createTableRow(page, item, index);
-            tbody.appendChild(row);
-        });
+    const table = document.getElementById(config.tableId);
+    const tbody = table?.querySelector('tbody');
+    if (!table || !tbody) {
+        console.error(`Table or tbody not found for tableId: ${config.tableId} on page: ${page}`);
+        return;
     }
+    tbody.innerHTML = '';
+    m2cData[page].forEach((item, index) => {
+        const row = createTableRow(page, item, index);
+        tbody.appendChild(row);
+    });
 }
 
 // Save data to localStorage
