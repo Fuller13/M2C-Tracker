@@ -4,6 +4,7 @@
  * Handles editable tables, adding/deleting rows, saving, and downloading data
  * Designed for offline use in a downloadable website shell
  */
+console.log('storage.js loaded');
 
 // Initialize data from localStorage or create new
 let m2cData = JSON.parse(localStorage.getItem('m2cData')) || {
@@ -22,9 +23,7 @@ let m2cData = JSON.parse(localStorage.getItem('m2cData')) || {
         { name: "USO", link: "https://www.uso.org/programs/uso-transition-program", description: "Transition assistance program includes financial readiness, employment resources, mentorship, education resources such as Coursera. Free training sessions on LinkedIn and resumes", notes: "" },
         { name: "Veteran Hiring Solutions", link: "https://www.veteranhiringsolutions.com/", description: "Resume assistance, interview preparation with AI assistance, translating military experience to civilian terminology, career guidance", notes: "" },
         { name: "Veterati", link: "https://www.veterati.com/", description: "On demand mentorship. Sign up for an account and search for a mentor. Spouses and Veterans eligible", notes: "" },
-        { name: "Vets2PM", link: "https://vets2pm.com/", description: "Free learning, Skillbridge options. Certification options during
-
- Skillbridge", notes: "" },
+        { name: "Vets2PM", link: "https://vets2pm.com/", description: "Free learning, Skillbridge options. Certification options during Skillbridge", notes: "" },
         { name: "50Strong", link: "https://www.50-strong.us/", description: "Veteran Employment resource", notes: "" },
         { name: "The Honor Foundation", link: "https://www.honor.org/", description: "Career transition program for U.S. Special Operations Forces that effectively translates their elite military service to the private sector and helps create the next generation of corporate and community leaders.", notes: "" },
         { name: "Operation New Uniform", link: "https://www.onuvets.org/", description: "Non-profit organization dedicated to empowering transitioning Servicemembers from all branches of the military to find their “new uniform”—a fulfilling career in the business world.", notes: "" },
@@ -91,6 +90,7 @@ const pageConfig = {
 
 // Load data into table on page load
 document.addEventListener('DOMContentLoaded', () => {
+    console.log('DOMContentLoaded fired for page:', document.body.dataset.page || getPageFromUrl());
     // Load dark mode preference
     if (localStorage.getItem('darkMode') === 'enabled') {
         document.body.classList.add('dark-mode');
@@ -98,7 +98,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const page = document.body.dataset.page || getPageFromUrl();
     const config = pageConfig[page];
-    if (!config) return;
+    if (!config) {
+        console.warn('No config found for page:', page);
+        return;
+    }
 
     // Load table data
     const table = document.getElementById(config.tableId);
@@ -111,6 +114,14 @@ document.addEventListener('DOMContentLoaded', () => {
     m2cData[page].forEach((item, index) => {
         const row = createTableRow(page, item, index);
         tbody.appendChild(row);
+    });
+
+    // Log button event handlers
+    console.log('Button functions defined:', {
+        addNewContact: typeof addNewContact,
+        saveContacts: typeof saveContacts,
+        downloadData: typeof downloadData,
+        toggleDarkMode: typeof toggleDarkMode
     });
 
     // Timeline-specific: Update days until separation and set daily update
@@ -168,6 +179,7 @@ function createTableRow(page, item, index) {
 
 // Add new row to table
 function addNewRow(page) {
+    console.log('addNewRow called for page:', page);
     const config = pageConfig[page];
     const newItem = {};
     let isValid = true;
@@ -202,6 +214,7 @@ function addNewRow(page) {
 
 // Delete row from table
 function deleteRow(page, index) {
+    console.log('deleteRow called for page:', page, 'index:', index);
     m2cData[page].splice(index, 1);
     saveData(page);
     updateTable(page);
@@ -210,6 +223,7 @@ function deleteRow(page, index) {
 
 // Update table display
 function updateTable(page) {
+    console.log('updateTable called for page:', page);
     const config = pageConfig[page];
     const table = document.getElementById(config.tableId);
     const tbody = table?.querySelector('tbody');
@@ -226,6 +240,7 @@ function updateTable(page) {
 
 // Save data to localStorage
 function saveData(page) {
+    console.log('saveData called for page:', page);
     if (page !== 'timeline' && page !== 'todos') {
         const config = pageConfig[page];
         const tbody = document.getElementById(config.tableId)?.querySelector('tbody');
@@ -267,6 +282,7 @@ function saveData(page) {
 
 // Download all data as JSON file
 function downloadData() {
+    console.log('downloadData called');
     const blob = new Blob([JSON.stringify(m2cData, null, 2)], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
@@ -280,17 +296,21 @@ function downloadData() {
 
 // Show temporary status message
 function showStatus() {
+    console.log('showStatus called');
     const status = document.getElementById('status');
     if (status) {
         status.style.display = 'block';
         setTimeout(() => {
             status.style.display = 'none';
         }, 2000);
+    } else {
+        console.warn('Status element not found');
     }
 }
 
 // Timeline-specific: Update days until separation
 function updateDaysUntilSeparation() {
+    console.log('updateDaysUntilSeparation called');
     const retirementDate = m2cData.timeline.find(item => item.event === 'Retirement Date')?.date || '2025-12-25';
     const today = new Date();
     today.setHours(0, 0, 0, 0); // Reset time to midnight
@@ -300,31 +320,34 @@ function updateDaysUntilSeparation() {
     const daysElement = document.getElementById('daysUntilSeparation');
     if (daysElement) {
         daysElement.textContent = diffDays > 0 ? diffDays : 0;
+    } else {
+        console.warn('daysUntilSeparation element not found');
     }
 }
 
 // Page-specific add functions
-function addNewContact() { addNewRow('contacts'); }
-function addNewLocation() { addNewRow('locations'); }
-function addNewOrg() { addNewRow('organizations'); }
-function addNewCert() { addNewRow('personaldevelopment'); }
-function addNewSkillbridge() { addNewRow('skillbridge'); }
-function addNewEvent() { addNewRow('timeline'); }
-function addNewTask() { addNewRow('todos'); }
-function addNewVAClaim() { addNewRow('vatracker'); }
+function addNewContact() { console.log('addNewContact called'); addNewRow('contacts'); }
+function addNewLocation() { console.log('addNewLocation called'); addNewRow('locations'); }
+function addNewOrg() { console.log('addNewOrg called'); addNewRow('organizations'); }
+function addNewCert() { console.log('addNewCert called'); addNewRow('personaldevelopment'); }
+function addNewSkillbridge() { console.log('addNewSkillbridge called'); addNewRow('skillbridge'); }
+function addNewEvent() { console.log('addNewEvent called'); addNewRow('timeline'); }
+function addNewTask() { console.log('addNewTask called'); addNewRow('todos'); }
+function addNewVAClaim() { console.log('addNewVAClaim called'); addNewRow('vatracker'); }
 
 // Page-specific save functions
-function saveContacts() { saveData('contacts'); }
-function saveLocations() { saveData('locations'); }
-function saveOrgs() { saveData('organizations'); }
-function saveCerts() { saveData('personaldevelopment'); }
-function saveSkillbridge() { saveData('skillbridge'); }
-function saveTimeline() { saveData('timeline'); }
-function saveVAClaims() { saveData('vatracker'); }
-function saveChanges() { saveData('todos'); }
+function saveContacts() { console.log('saveContacts called'); saveData('contacts'); }
+function saveLocations() { console.log('saveLocations called'); saveData('locations'); }
+function saveOrgs() { console.log('saveOrgs called'); saveData('organizations'); }
+function saveCerts() { console.log('saveCerts called'); saveData('personaldevelopment'); }
+function saveSkillbridge() { console.log('saveSkillbridge called'); saveData('skillbridge'); }
+function saveTimeline() { console.log('saveTimeline called'); saveData('timeline'); }
+function saveVAClaims() { console.log('saveVAClaims called'); saveData('vatracker'); }
+function saveChanges() { console.log('saveChanges called'); saveData('todos'); }
 
 // Todos-specific: Sort table
 function sortTable(columnIndex) {
+    console.log('sortTable called with columnIndex:', columnIndex);
     const table = document.getElementById('todoTable');
     const tbody = table.querySelector('tbody');
     const rows = Array.from(tbody.querySelectorAll('tr'));
@@ -344,6 +367,7 @@ function sortTable(columnIndex) {
 
 // Dark mode toggle function
 function toggleDarkMode() {
+    console.log('toggleDarkMode called');
     document.body.classList.toggle('dark-mode');
     localStorage.setItem('darkMode', document.body.classList.contains('dark-mode') ? 'enabled' : 'disabled');
 }
