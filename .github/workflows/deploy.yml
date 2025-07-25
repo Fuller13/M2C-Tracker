@@ -30,6 +30,8 @@ jobs:
         uses: actions/deploy-pages@v4
   generate-zip:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write # Required for creating/updating releases
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -42,5 +44,6 @@ jobs:
           files: M2C-Tracker-latest.zip
           draft: false
           prerelease: false
+          overwrite: true # Overwrite existing release assets
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
