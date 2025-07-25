@@ -24,6 +24,7 @@ jobs:
           test -f storage.js
           test -f logo.svg
           test -f contacts.html
+          test -f organizations.html
           test -f assets/M2C-Tracker-main.zip
       - name: Install Node.js
         uses: actions/setup-node@v4
