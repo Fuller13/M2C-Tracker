@@ -7,7 +7,7 @@
 
 body {
     font-family: 'Open Sans', sans-serif;
-    background-color: #F5F6F5;
+    background-color: #F0F2F5; /* Light gray-blue for non-dark mode */
     color: #333333;
     transition: background-color 0.3s ease, color 0.3s ease;
 }
@@ -68,6 +68,15 @@ body.dark-mode nav {
     color: #FFFFFF;
 }
 
+.nav-logo img {
+    max-height: 50px;
+    vertical-align: middle;
+}
+
+body.dark-mode .nav-logo img {
+    filter: brightness(1.2);
+}
+
 nav ul {
     list-style: none;
     display: flex;
@@ -102,7 +111,7 @@ main {
 .hero {
     text-align: center;
     padding: 40px 20px;
-    background-color: #FFFFFF;
+    background-color: #F0F2F5;
     border-radius: 8px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     margin-bottom: 20px;
@@ -140,7 +149,7 @@ body.dark-mode .hero p {
     max-width: 800px;
     margin: 30px auto;
     padding: 20px;
-    background-color: #FFFFFF;
+    background-color: #F0F2F5;
     border-radius: 8px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     text-align: center;
@@ -183,7 +192,7 @@ body.dark-mode .about-section p, body.dark-mode .about-section ol {
     max-width: 800px;
     margin: 30px auto;
     padding: 20px;
-    background-color: #FFFFFF;
+    background-color: #F0F2F5;
     border-radius: 8px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     text-align: center;
@@ -299,7 +308,7 @@ body.dark-mode h2 {
 
 .add-task-form {
     margin-bottom: 20px;
-    background-color: #FFFFFF;
+    background-color: #F0F2F5;
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
@@ -365,7 +374,7 @@ body.dark-mode .add-task-form input:focus, body.dark-mode .add-task-form select:
 table {
     width: 100%;
     border-collapse: collapse;
-    background-color: #FFFFFF;
+    background-color: #F0F2F5;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     margin-bottom: 20px;
     transition: background-color 0.3s ease;
@@ -443,7 +452,7 @@ td select {
     padding: 8px;
     border-radius: 5px;
     border: 1px solid #B0B0B0;
-    background-color: #FFFFFF;
+    background-color: #F0F2F5;
     width: 100%;
     transition: border-color 0.3s ease, background-color 0.3s ease;
 }
