@@ -35,7 +35,7 @@ const defaultOrganizations = [
 ];
 
 // Version for data schema
-const DATA_VERSION = '2.0';
+const DATA_VERSION = '2.1';
 
 // Initialize data from localStorage or create new
 let m2cData = JSON.parse(localStorage.getItem('m2cData')) || {
@@ -49,9 +49,9 @@ let m2cData = JSON.parse(localStorage.getItem('m2cData')) || {
     vatracker: []
 };
 
-// Check data version and update organizations if outdated
+// Check data version and update organizations if outdated or incomplete
 const storedVersion = localStorage.getItem('dataVersion');
-if (storedVersion !== DATA_VERSION) {
+if (storedVersion !== DATA_VERSION || m2cData.organizations.length < defaultOrganizations.length) {
     console.log('Updating m2cData.organizations to version', DATA_VERSION);
     // Merge default organizations with user-added entries
     const userOrgs = m2cData.organizations.filter(org => 
@@ -406,4 +406,12 @@ function toggleDarkMode() {
     console.log('toggleDarkMode called');
     document.body.classList.toggle('dark-mode');
     localStorage.setItem('darkMode', document.body.classList.contains('dark-mode') ? 'enabled' : 'disabled');
+}
+
+// Reset data function for testing
+function resetData() {
+    console.log('resetData called');
+    localStorage.removeItem('m2cData');
+    localStorage.removeItem('dataVersion');
+    alert('Data reset! Please reload the page.');
 }
