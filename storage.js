@@ -324,3 +324,16 @@ function sortTable(columnIndex) {
     rows.forEach(row => tbody.appendChild(row));
     saveData('todos');
 }
+/* Previous storage.js content remains unchanged */
+function toggleDarkMode() {
+    document.body.classList.toggle('dark-mode');
+    localStorage.setItem('darkMode', document.body.classList.contains('dark-mode') ? 'enabled' : 'disabled');
+}
+
+// Load dark mode preference on page load
+document.addEventListener('DOMContentLoaded', () => {
+    if (localStorage.getItem('darkMode') === 'enabled') {
+        document.body.classList.add('dark-mode');
+    }
+    // Rest of the existing DOMContentLoaded code...
+});
