@@ -11,7 +11,29 @@ concurrency:
   group: "pages"
   cancel-in-progress: false
 jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Verify Files
+        run: |
+          ls -la
+          test -f index.html
+          test -f styles.css
+          test -f storage.js
+          test -f logo.svg
+          test -f contacts.html
+      - name: Install Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Install HTMLHint
+        run: npm install -g htmlhint
+      - name: Validate HTML
+        run: htmlhint *.html
   build-and-deploy:
+    needs: test
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
@@ -29,14 +51,15 @@ jobs:
         id: deployment
         uses: actions/deploy-pages@v4
   generate-zip:
+    needs: test
     runs-on: ubuntu-latest
     permissions:
-      contents: write # Required for creating/updating releases
+      contents: write
     steps:
       - name: Checkout
         uses: actions/checkout@v4
       - name: Create ZIP
-        run: zip -r M2C-Tracker-latest.zip *.html styles.css storage.js assets
+        run: zip -r M2C-Tracker-latest.zip *.html styles.css storage.js logo.svg assets
       - name: Upload to Release
         uses: softprops/action-gh-release@v2
         with:
@@ -44,6 +67,6 @@ jobs:
           files: M2C-Tracker-latest.zip
           draft: false
           prerelease: false
-          overwrite: true # Overwrite existing release assets
+          overwrite: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
